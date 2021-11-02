@@ -63,11 +63,6 @@ def draw_mode(label, mode, shape):
     cv2.imshow(label, big)
     return big
 
-x = None
-y = None
-norm_x = None
-norm_y = None
-primed = False
 counter = 0
 
 X = []
@@ -107,9 +102,7 @@ for frame in reader.nextFrame():
 
     small = cv2.resize(scaled, (dmd_size,dmd_size), interpolation=cv2.INTER_AREA)
 
-    #X.append( gray.flatten() )
     X.append( np.flipud(small) )
-
     while len(X) > window_size:
         del X[0]
 
