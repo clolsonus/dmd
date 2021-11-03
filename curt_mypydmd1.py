@@ -20,7 +20,7 @@ reader = skvideo.io.FFmpegReader(args.video, inputdict={}, outputdict={})
 counter = 0
 scale = args.scale
 dmd_size = 200
-max_rank = 19
+max_rank = 199
 X = []
 
 # non-changing pixel (bike-vid)
@@ -109,22 +109,40 @@ dmd.plot_modes_2D(figsize=(12,5))
 #     plt.subplot(4, 4, id_subplot)
 #     plt.pcolor(x1grid, x2grid, snapshot.reshape(x1grid.shape).real, vmin=-1, vmax=1)
 
-for eig in dmd.eigs:
+idx = np.argsort(np.abs(dmd.eigs-1))
+for eig in dmd.eigs[idx]:
     print('Eigenvalue {}: distance from unit circle {}'.format(eig, np.abs(eig.imag**2+eig.real**2 - 1)))
 
 dmd.plot_eigs(show_axes=True, show_unit_circle=True)
 
+# plt.figure()
+# for mode in dmd.modes.T:
+#     plt.plot(mode.real)
+# plt.legend()
+# plt.title('Modes')
+
 plt.figure()
-for mode in dmd.modes.T:
-    print("hey1")
-    plt.plot(mode.real)
+for i in idx:
+    mode = dmd.modes.T[i]
+    #label = "%.4f%+.4fj" % (dmd.eigs[i].real, dmd.eigs[i].imag)
+    label = "freq = %.4f" % (dmd.frequency[i])
+    plt.plot(mode.real, label=label)
 plt.legend()
 plt.title('Modes')
 
+# plt.figure()
+# for dynamic in dmd.dynamics:
+#     plt.plot(dynamic.real)
+# plt.legend()
+# plt.title('Dynamics')
+# plt.show()
+
 plt.figure()
-for dynamic in dmd.dynamics:
-    print("hey2")
-    plt.plot(dynamic.real)
+for i in idx:
+    dynamic = dmd.dynamics[i]
+    #label = "%.4f%+.4fj" % (dmd.eigs[i].real, dmd.eigs[i].imag)
+    label = "freq = %.4f" % (dmd.frequency[i])
+    plt.plot(dynamic.real, label=label)
 plt.legend()
 plt.title('Dynamics')
 plt.show()
