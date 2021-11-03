@@ -20,7 +20,7 @@ reader = skvideo.io.FFmpegReader(args.video, inputdict={}, outputdict={})
 counter = 0
 scale = args.scale
 dmd_size = 200
-max_rank = 9
+max_rank = 19
 X = []
 
 # non-changing pixel (bike-vid)
@@ -114,14 +114,19 @@ for eig in dmd.eigs:
 
 dmd.plot_eigs(show_axes=True, show_unit_circle=True)
 
+plt.figure()
 for mode in dmd.modes.T:
+    print("hey1")
     plt.plot(mode.real)
-    plt.title('Modes')
-plt.show()
+plt.legend()
+plt.title('Modes')
 
+plt.figure()
 for dynamic in dmd.dynamics:
+    print("hey2")
     plt.plot(dynamic.real)
-    plt.title('Dynamics')
+plt.legend()
+plt.title('Dynamics')
 plt.show()
 
 # fig = plt.figure(figsize=(17,6))
